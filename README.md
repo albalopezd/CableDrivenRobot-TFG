@@ -25,7 +25,6 @@ CoppeliaSim
   ```bash
   python plot_generic.py <csv_file> <x_col> <y_col>
   ```
-  ```
   - e.g.:                                                                                                                                                       
   python plot_generic.py ../csv/direct_kinematic_validation_4seg.csv time d_real                                                                                
   - list available columns:                                                                                                                                     
