@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<robot name="cable_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="mesh_dir" value="package://cable_robot_description/meshes"/>
+  <xacro:property name="mesh_scale" value="0.001"/>
+  <xacro:property name="segment_spacing" value="0.05675"/>
+  <xacro:property name="cable_radius_offset" value="0.02"/>
+  <xacro:property name="cable_radius" value="0.0012"/>
+  <xacro:property name="cable_length" value="0.240"/>
+  <xacro:property name="cable_start_z" value="-0.01"/>
+  <xacro:property name="cable_travel" value="0.08"/>
+  <xacro:property name="base_cable_section_length" value="${segment_spacing - cable_start_z}"/>
+  <xacro:property name="deg_to_rad" value="0.017453292519943295"/>
+  <xacro:property name="cable_1_angle_deg" value="90.0"/>
+  <xacro:property name="cable_2_angle_deg" value="-90.0"/>
+  <xacro:property name="cable_3_angle_deg" value="0"/>
+  <xacro:property name="cable_1_angle" value="${cable_1_angle_deg * deg_to_rad}"/>
+  <xacro:property name="cable_2_angle" value="${cable_2_angle_deg * deg_to_rad}"/>
+  <xacro:property name="cable_3_angle" value="${cable_3_angle_deg * deg_to_rad}"/>
+
+  <material name="base_color">
+    <color rgba="0.25 0.35 0.55 1.0"/>
+  </material>
+  <material name="platform_color">
+    <color rgba="0.85 0.35 0.20 1.0"/>
+  </material>
+  <material name="cable_color">
+    <color rgba="0.08 0.08 0.08 1.0"/>
+  </material>
+
+  <xacro:macro name="segment_stage" params="segment_name parent bend_x_joint bend_y_joint z">
+    <link name="${segment_name}_bend_x_link"/>
+
+    <joint name="${bend_x_joint}" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${segment_name}_bend_x_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <limit lower="-1.57" upper="1.57" effort="20.0" velocity="1.0"/>
+    </joint>
+
+    <link name="${segment_name}_bend_y_link"/>
+
+    <joint name="${bend_y_joint}" type="revolute">
+      <parent link="${segment_name}_bend_x_link"/>
+      <child link="${segment_name}_bend_y_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-1.57" upper="1.57" effort="20.0" velocity="1.0"/>
+    </joint>
+
+    <link name="${segment_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${mesh_dir}/segment.stl" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+        </geometry>
+        <material name="platform_color"/>
+      </visual>
+    </link>
+
+    <joint name="${segment_name}_placement_joint" type="fixed">
+      <parent link="${segment_name}_bend_y_link"/>
+      <child link="${segment_name}"/>
+      <origin xyz="0 0 ${z}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="cable_link" params="name joint_name angle">
+    <link name="${name}_anchor_link"/>
+
+    <joint name="${joint_name}" type="prismatic">
+      <parent link="${name}_anchor_link"/>
+      <child link="${name}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0.0" upper="${cable_travel}" effort="50.0" velocity="0.1"/>
+    </joint>
+
+    <link name="${name}">
+    </link>
+
+    <joint name="base_to_${name}_anchor" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}_anchor_link"/>
+      <origin
+        xyz="${cable_radius_offset * cos(angle)} ${cable_radius_offset * sin(angle)} ${cable_start_z}"
+        rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="cable_section" params="name parent angle z_mid length">
+    <link name="${name}">
+      <visual>
+        <origin xyz="0 0 ${z_mid}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${cable_radius}" length="${length}"/>
+        </geometry>
+        <material name="cable_color"/>
+      </visual>
+    </link>
+
+    <joint name="${parent}_to_${name}" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${name}"/>
+      <origin
+        xyz="${cable_radius_offset * cos(angle)} ${cable_radius_offset * sin(angle)} 0"
+        rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="3.14159 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_dir}/base.stl" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="base_color"/>
+    </visual>
+  </link>
+
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <xacro:segment_stage
+    segment_name="segment_1_link"
+    parent="base_link"
+    bend_x_joint="joint_bend_x"
+    bend_y_joint="joint_bend_y"
+    z="${segment_spacing}"/>
+  <xacro:segment_stage
+    segment_name="segment_2_link"
+    parent="segment_1_link"
+    bend_x_joint="joint_bend_x_1"
+    bend_y_joint="joint_bend_y_1"
+    z="${segment_spacing}"/>
+  <xacro:segment_stage
+    segment_name="segment_3_link"
+    parent="segment_2_link"
+    bend_x_joint="joint_bend_x_2"
+    bend_y_joint="joint_bend_y_2"
+    z="${segment_spacing}"/>
+  <xacro:segment_stage
+    segment_name="segment_4_link"
+    parent="segment_3_link"
+    bend_x_joint="joint_bend_x_3"
+    bend_y_joint="joint_bend_y_3"
+    z="${segment_spacing}"/>
+
+  <xacro:cable_link
+    name="cable_1_link"
+    joint_name="cable_1_joint"
+    angle="${cable_1_angle}"/>
+  <xacro:cable_section
+    name="cable_1_base_section"
+    parent="base_link"
+    angle="${cable_1_angle}"
+    z_mid="${(cable_start_z + segment_spacing) / 2.0}"
+    length="${base_cable_section_length}"/>
+  <xacro:cable_section
+    name="cable_1_section_1"
+    parent="segment_1_link"
+    angle="${cable_1_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_1_section_2"
+    parent="segment_2_link"
+    angle="${cable_1_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_1_section_3"
+    parent="segment_3_link"
+    angle="${cable_1_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_link
+    name="cable_2_link"
+    joint_name="cable_2_joint"
+    angle="${cable_2_angle}"/>
+  <xacro:cable_section
+    name="cable_2_base_section"
+    parent="base_link"
+    angle="${cable_2_angle}"
+    z_mid="${(cable_start_z + segment_spacing) / 2.0}"
+    length="${base_cable_section_length}"/>
+  <xacro:cable_section
+    name="cable_2_section_1"
+    parent="segment_1_link"
+    angle="${cable_2_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_2_section_2"
+    parent="segment_2_link"
+    angle="${cable_2_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_2_section_3"
+    parent="segment_3_link"
+    angle="${cable_2_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_link
+    name="cable_3_link"
+    joint_name="cable_3_joint"
+    angle="${cable_3_angle}"/>
+  <xacro:cable_section
+    name="cable_3_base_section"
+    parent="base_link"
+    angle="${cable_3_angle}"
+    z_mid="${(cable_start_z + segment_spacing) / 2.0}"
+    length="${base_cable_section_length}"/>
+  <xacro:cable_section
+    name="cable_3_section_1"
+    parent="segment_1_link"
+    angle="${cable_3_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_3_section_2"
+    parent="segment_2_link"
+    angle="${cable_3_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+  <xacro:cable_section
+    name="cable_3_section_3"
+    parent="segment_3_link"
+    angle="${cable_3_angle}"
+    z_mid="${segment_spacing / 2.0}"
+    length="${segment_spacing}"/>
+
+</robot>
