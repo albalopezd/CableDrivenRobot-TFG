@@ -61,7 +61,7 @@ def main():
     # --- Plot 4: Cable lengths ---
     ax = axes[1, 1]
     for cable, color in zip([1, 2, 3], ["tab:blue", "tab:orange", "tab:green"]):
-        ax.plot(t, df[f"c{cable}"], color=color, label=f"c{cable}")
+        ax.plot(t, df[f"l{cable}"], color=color, label=f"l{cable}")
     ax.set_title("Cable lengths over time")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Length (m)")

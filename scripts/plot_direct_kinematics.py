@@ -42,10 +42,10 @@ def main():
 
     # --- Plot 2: Position error over time ---
     ax = axes[0, 1]
-    ax.plot(t, df["d_real"], color="tab:red")
+    ax.plot(t, df["error_dist"], color="tab:red")
     ax.set_title("Position error over time")
     ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error d_real (m)")
+    ax.set_ylabel("Error(m)")
     ax.grid(True)
 
     # --- Plot 3: Total rotation angle ---
