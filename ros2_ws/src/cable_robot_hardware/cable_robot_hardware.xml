@@ -1,0 +1,10 @@
+<library path="cable_robot_hardware">
+<class
+    name="cable_robot_hardware/CableRobotHardware"
+    type="cable_robot_hardware::CableRobotHardware"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+    Hardware interface para el robot de cables con servos LX-16A
+    </description>
+</class>
+</library>

@@ -16,7 +16,7 @@ class CableRobotHardware : public hardware_interface::SystemInterface
 {
     public:
         hardware_interface::CallbackReturn on_init(
-            const hardware_interface::HardwareInfo & info) override;
+            const hardware_interface::HardwareComponentInterfaceParams & params) override;
 
         hardware_interface::CallbackReturn on_configure(
             const rclcpp_lifecycle::State & previous_state) override;
@@ -38,13 +38,14 @@ class CableRobotHardware : public hardware_interface::SystemInterface
 
     private:
         std::string port_;
-        int         baud_;
-        double      cable_speed_;
+        int baud_;
+        double cable_speed_;
 
         std::vector<double> hw_positions_;
         std::vector<double> hw_velocities_;
 
         int serial_fd_;
+        int log_count_ = 0;
 
         bool serial_write(const std::string & msg);
 };
