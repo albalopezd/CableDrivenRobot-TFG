@@ -236,4 +236,33 @@
     z_mid="${segment_spacing / 2.0}"
     length="${segment_spacing}"/>
 
+  <ros2_control name="CableRobotHardware" type="system">
+    <hardware>
+      <plugin>cable_robot_hardware/CableRobotHardware</plugin>
+      <param name="port">/dev/ttyACM0</param>
+      <param name="baud">9600</param>
+      <param name="cable_speed">0.026</param>
+    </hardware>
+
+    <joint name="cable_1_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+    </joint>
+
+    <joint name="cable_2_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+    </joint>
+
+    <joint name="cable_3_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+    </joint>
+  </ros2_control>
 </robot>
