@@ -6,7 +6,7 @@
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 
-#include "cable_robot_kinematics/continuum_kinematics.hpp"
+#include "cable_robot_kinematics/pcc_kinematics.hpp"
 
 
 using namespace std::chrono_literals;
