@@ -11,9 +11,9 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_library(continuum_kinematics src/continuum_kinematics.cpp)
-target_include_directories(continuum_kinematics PUBLIC include)
-ament_target_dependencies(continuum_kinematics)
+add_library(pcc_kinematics src/pcc_kinematics.cpp)
+target_include_directories(pcc_kinematics PUBLIC include)
+ament_target_dependencies(pcc_kinematics)
 
 
 add_executable(joint_state_combiner_cpp src/joint_state_combiner.cpp)
@@ -40,8 +40,8 @@ ament_target_dependencies(fk_bridge_cpp
   geometry_msgs
 )
 
-target_link_libraries(ik_bridge_cpp continuum_kinematics)
-target_link_libraries(fk_bridge_cpp continuum_kinematics)
+target_link_libraries(ik_bridge_cpp pcc_kinematics)
+target_link_libraries(fk_bridge_cpp pcc_kinematics)
 
 
 install(TARGETS
@@ -49,6 +49,13 @@ install(TARGETS
   cable_bend_bridge_cpp
   fk_bridge_cpp
   ik_bridge_cpp
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  src/cable_slider_gui.py
+  src/hardware_controller.py
+  src/data_logger.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

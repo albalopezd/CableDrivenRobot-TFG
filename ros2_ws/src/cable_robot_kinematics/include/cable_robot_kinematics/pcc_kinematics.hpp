@@ -32,9 +32,6 @@ namespace cable_robot_kinematics
         double x, double y, double z, int n_segment
     );
 
-    // FK: dados los deltas de cable (m), devuelve desplazamiento del extremo
-    // respecto a la posición home (robot recto = 0,0,0).
-    // phi_cable_i fijos: 0, 2π/3, 4π/3.
     FKResult fwd_kinematics(
         double c1, double c2, double c3,
         double L_total,

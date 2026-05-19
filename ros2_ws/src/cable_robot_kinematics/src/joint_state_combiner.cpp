@@ -53,18 +53,16 @@ class JointStateCombiner : public rclcpp::Node
             sensor_msgs::msg::JointState msg;
             msg.header.stamp = this->now();
             msg.name = {
-                "joint_bend_x", "joint_bend_y",
+                "joint_bend_x",   "joint_bend_y",
                 "joint_bend_x_1", "joint_bend_y_1",
                 "joint_bend_x_2", "joint_bend_y_2",
                 "joint_bend_x_3", "joint_bend_y_3",
-                "cable_1_joint", "cable_2_joint", "cable_3_joint"
             };
             msg.position = {
-                joint_bend_x_, joint_bend_y_,
+                joint_bend_x_,   joint_bend_y_,
                 joint_bend_x_1_, joint_bend_y_1_,
                 joint_bend_x_2_, joint_bend_y_2_,
                 joint_bend_x_3_, joint_bend_y_3_,
-                cable_1_joint_, cable_2_joint_, cable_3_joint_
             };
             publisher_->publish(msg);
         }

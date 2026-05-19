@@ -1,0 +1,17 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 10
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    cable_velocity_controller:
+      type: forward_command_controller/ForwardCommandController
+
+cable_velocity_controller:
+  ros__parameters:
+    joints:
+      - cable_1_joint
+      - cable_2_joint
+      - cable_3_joint
+    interface_name: velocity

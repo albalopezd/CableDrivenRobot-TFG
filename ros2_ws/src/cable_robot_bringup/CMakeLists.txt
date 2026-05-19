@@ -9,7 +9,13 @@ find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY
   launch
+  config
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  scripts/serial_bridge.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

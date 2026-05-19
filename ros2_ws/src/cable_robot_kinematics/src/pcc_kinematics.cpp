@@ -51,15 +51,11 @@ namespace cable_robot_kinematics
         double c1, double c2, double c3,
         double L_total, double d_cable)
     {
-        // Invertir c_i = d * theta * sin(phi + phi_c_i)
-        // con phi_c = {0, 2π/3, 4π/3}:
-        //   d·theta·sin(phi) = c1
-        //   d·theta·cos(phi) = (c2 - c3) / sqrt(3)
         const double sin_comp = c1;
         const double cos_comp = (c2 - c3) / std::sqrt(3.0);
 
         const double theta = std::sqrt(sin_comp*sin_comp + cos_comp*cos_comp) / d_cable;
-        const double phi   = std::atan2(sin_comp, cos_comp);
+        const double phi = std::atan2(sin_comp, cos_comp);
 
         if (theta < 1e-6) {
             return {0.0, 0.0, 0.0, theta, phi};
@@ -69,7 +65,7 @@ namespace cable_robot_kinematics
         return {
             R * (1.0 - std::cos(theta)) * std::cos(phi),
             R * (1.0 - std::cos(theta)) * std::sin(phi),
-            R * std::sin(theta) - L_total,  // 0 cuando robot recto
+            R * std::sin(theta) - L_total,
             theta,
             phi
         };
