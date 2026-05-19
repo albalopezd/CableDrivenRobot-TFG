@@ -110,8 +110,8 @@ hardware_interface::return_type CableRobotHardware::read(
 hardware_interface::return_type CableRobotHardware::write(
     const rclcpp::Time &, const rclcpp::Duration &)
 {
-    int spd0 = static_cast<int>(hw_velocities_[0] * 1000.0);
-    int spd1 = static_cast<int>(hw_velocities_[1] * 1000.0);
+    int spd0 = static_cast<int>(hw_velocities_[1] * 1000.0);
+    int spd1 = static_cast<int>(hw_velocities_[0] * 1000.0);
     int spd2 = static_cast<int>(hw_velocities_[2] * 1000.0);
 
     // Communication protocol with Arduino
