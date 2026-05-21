@@ -110,19 +110,14 @@ hardware_interface::return_type CableRobotHardware::read(
 hardware_interface::return_type CableRobotHardware::write(
     const rclcpp::Time &, const rclcpp::Duration &)
 {
-    int spd0 = static_cast<int>(hw_velocities_[1] * 1000.0);
-    int spd1 = static_cast<int>(hw_velocities_[0] * 1000.0);
-    int spd2 = static_cast<int>(hw_velocities_[2] * 1000.0);
+    int spd0 = static_cast<int>(hw_velocities_[1] * 1000.0);   // cable_2_joint → servo 10 (X+)
+    int spd1 = static_cast<int>(hw_velocities_[2] * 1000.0);   // cable_3_joint → servo 4 (X-)
+    int spd2 = static_cast<int>(-hw_velocities_[0] * 1000.0);  // cable_1_joint → servo 7 (Y+), montado invertido
 
-    // Communication protocol with Arduino
     std::string msg = "v:" + std::to_string(spd0) + "," +
                                 std::to_string(spd1) + "," +
                                 std::to_string(spd2) + "\n";
-    bool ok = serial_write(msg);
-    if (++log_count_ % 10 == 0) {
-        RCLCPP_INFO(rclcpp::get_logger("CableRobotHardware"),
-            "write -> %s (ok=%d)", msg.c_str(), ok);
-    }
+    serial_write(msg);
 
     return hardware_interface::return_type::OK;
 }
