@@ -9,7 +9,7 @@ KP      = 5.0   # ganancia proporcional (m/s por metro de error)
 MAX_VEL = 1.0   # velocidad máxima (m/s)
 MIN_VEL         = 0.15  # velocidad mínima tensando (speed ~150)
 MIN_VEL_RELEASE = 0.185  # velocidad mínima soltando — más fuerza contra rozamiento y peso (speed ~185)
-DEADBAND = 0.002  # error < 2mm → parar (evita oscilación en reposo)
+DEADBAND = 0.001  # error < 1mm → parar (evita oscilación en reposo)
 
 
 class HardwareController(Node):
@@ -29,7 +29,7 @@ class HardwareController(Node):
         for i, name in enumerate(JOINTS):
             if name in msg.name:
                 idx = msg.name.index(name)
-                self._desired[i] = msg.position[idx]
+                self._desired[i] = max(0.0, msg.position[idx])
 
     def _current_cb(self, msg: JointState):
         for i, name in enumerate(JOINTS):

@@ -103,6 +103,7 @@ hardware_interface::return_type CableRobotHardware::read(
 {
     for (size_t i = 0; i < hw_positions_.size(); ++i) {
         hw_positions_[i] += hw_velocities_[i] * cable_speed_ * period.seconds();
+        if (hw_positions_[i] < 0.0) hw_positions_[i] = 0.0;
     }
     return hardware_interface::return_type::OK;
 }

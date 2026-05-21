@@ -79,7 +79,7 @@
 
     <link name="${name}">
     </link>
-MAX_VAL
+
     <joint name="base_to_${name}_anchor" type="fixed">
       <parent link="base_link"/>
       <child link="${name}_anchor_link"/>
