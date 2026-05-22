@@ -8,7 +8,7 @@
 class CableBendBridge : public rclcpp::Node
 {
     public:
-        CableBendBridge() : Node("cable_bend_bridge"), n_segment_(4), d_cable_(0.02)
+        CableBendBridge() : Node("cable_bend_bridge"), n_segment_(4), d_cable_(0.02), display_scale_(0.207)
         {
             publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("bend_joint_commands", 10);
             joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
@@ -42,8 +42,9 @@ class CableBendBridge : public rclcpp::Node
             const double phi   = std::atan2(sin_comp, cos_comp);
 
             // joint_bend_x+ → punta hacia -Y; joint_bend_y+ → punta hacia +X
-            const double bx_segment = -theta * std::cos(phi) / n_segment_;
-            const double by_segment = -theta * std::sin(phi) / n_segment_;
+            // display_scale_ corrige la sobreestimación open-loop: estimado/físico ≈ 0.15/0.031
+            const double bx_segment = -theta * std::cos(phi) / n_segment_ * display_scale_;
+            const double by_segment = -theta * std::sin(phi) / n_segment_ * display_scale_;
 
             sensor_msgs::msg::JointState bend_msg;
             bend_msg.header.stamp = this->now();
@@ -67,6 +68,7 @@ class CableBendBridge : public rclcpp::Node
 
         int n_segment_;
         double d_cable_;
+        double display_scale_;
 };
 
 int main(int argc, char ** argv)

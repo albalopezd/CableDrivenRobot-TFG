@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include <cstring>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -26,7 +27,11 @@ hardware_interface::CallbackReturn CableRobotHardware::on_init(
 
     hw_positions_.assign(info_.joints.size(), 0.0);
     hw_velocities_.assign(info_.joints.size(), 0.0);
-  
+
+    node_ = rclcpp::Node::make_shared("cable_robot_hardware_node");
+    voltage_pub_ = node_->create_publisher<std_msgs::msg::Float32MultiArray>(
+        "/servo_voltage", 10);
+
     return hardware_interface::CallbackReturn::SUCCESS;
 } 
 
@@ -105,7 +110,37 @@ hardware_interface::return_type CableRobotHardware::read(
         hw_positions_[i] += hw_velocities_[i] * cable_speed_ * period.seconds();
         if (hw_positions_[i] < 0.0) hw_positions_[i] = 0.0;
     }
+    serial_read_voltages();
     return hardware_interface::return_type::OK;
+}
+
+void CableRobotHardware::serial_read_voltages()
+{
+    char buf[64];
+    ssize_t n = ::read(serial_fd_, buf, sizeof(buf) - 1);
+    if (n <= 0) return;
+    buf[n] = '\0';
+    serial_read_buf_ += buf;
+
+    size_t pos;
+    while ((pos = serial_read_buf_.find('\n')) != std::string::npos) {
+        std::string line = serial_read_buf_.substr(0, pos);
+        serial_read_buf_ = serial_read_buf_.substr(pos + 1);
+
+        if (line.rfind("w:", 0) != 0) continue;
+
+        std::istringstream ss(line.substr(2));
+        std::string tok;
+        std_msgs::msg::Float32MultiArray msg;
+        while (std::getline(ss, tok, ',')) {
+            int v = std::stoi(tok);
+            // -1 = timeout; publicar 0 para indicar no disponible
+            msg.data.push_back(v > 0 ? static_cast<float>(v) / 1000.0f : 0.0f);
+        }
+        if (msg.data.size() == 3) {
+            voltage_pub_->publish(msg);
+        }
+    }
 }
 
 hardware_interface::return_type CableRobotHardware::write(

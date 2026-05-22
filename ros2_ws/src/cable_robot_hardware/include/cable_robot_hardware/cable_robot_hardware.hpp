@@ -8,6 +8,7 @@
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/state.hpp"
+#include "std_msgs/msg/float32_multi_array.hpp"
 
 namespace cable_robot_hardware
 {
@@ -46,8 +47,13 @@ class CableRobotHardware : public hardware_interface::SystemInterface
 
         int serial_fd_;
         int log_count_ = 0;
+        std::string serial_read_buf_;
+
+        rclcpp::Node::SharedPtr node_;
+        rclcpp::Publisher<std_msgs::msg::Float32MultiArray>::SharedPtr voltage_pub_;
 
         bool serial_write(const std::string & msg);
+        void serial_read_voltages();
 };
 
 }  // namespace cable_robot_hardware

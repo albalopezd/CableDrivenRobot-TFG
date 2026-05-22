@@ -9,6 +9,7 @@
   find_package(rclcpp REQUIRED)
   find_package(hardware_interface REQUIRED)
   find_package(pluginlib REQUIRED)
+  find_package(std_msgs REQUIRED)
 
   add_library(cable_robot_hardware SHARED
     src/cable_robot_hardware.cpp
@@ -23,6 +24,7 @@
     rclcpp
     hardware_interface
     pluginlib
+    std_msgs
   )
 
   pluginlib_export_plugin_description_file(

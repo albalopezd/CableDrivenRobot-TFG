@@ -1,11 +1,13 @@
 #include "LX16A.h"
 
-#define FRAME_HEADER     0x55
-#define MOVE_TIME_WRITE  1
-#define MOVE_STOP        12
-#define POS_READ         28
-#define ID_WRITE         13
-#define LOAD_UNLOAD      31
+#define FRAME_HEADER       0x55
+#define MOVE_TIME_WRITE    1
+#define MOVE_STOP          12
+#define POS_READ           28
+#define MOTOR_MODE_WRITE   29
+#define ID_WRITE           13
+#define LOAD_UNLOAD        31
+#define VIN_READ           27
 
 LX16A::LX16A(Stream& serial) : serial_(serial) {}
 
@@ -68,6 +70,43 @@ int LX16A::readPosition(uint8_t id) {
     req[2] = id;
     req[3] = 3;
     req[4] = POS_READ;
+    req[5] = checksum(req);
+
+    while (serial_.available()) serial_.read();
+    serial_.write(req, 6);
+
+    int count = 10000;
+    while (!serial_.available()) {
+        if (--count < 0) return -1;
+    }
+
+    byte ret[32];
+    if (receiveHandle(ret) > 0)
+        return (int16_t)((((uint16_t)ret[2]) << 8) | ret[1]);
+
+    return -1;
+}
+
+void LX16A::setMotorSpeed(uint8_t id, int16_t speed) {
+    byte buf[10];
+    buf[0] = buf[1] = FRAME_HEADER;
+    buf[2] = id;
+    buf[3] = 7;
+    buf[4] = MOTOR_MODE_WRITE;
+    buf[5] = 1;                          // motor mode
+    buf[6] = 0;
+    buf[7] = (byte)((uint16_t)speed);
+    buf[8] = (byte)((uint16_t)speed >> 8);
+    buf[9] = checksum(buf);
+    serial_.write(buf, 10);
+}
+
+int LX16A::readVin(uint8_t id) {
+    byte req[6];
+    req[0] = req[1] = FRAME_HEADER;
+    req[2] = id;
+    req[3] = 3;
+    req[4] = VIN_READ;
     req[5] = checksum(req);
 
     while (serial_.available()) serial_.read();

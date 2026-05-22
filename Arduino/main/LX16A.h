@@ -7,10 +7,12 @@ class LX16A {
     public:
         LX16A(Stream& serial);
         void move(uint8_t id, uint16_t position, uint16_t time_ms);
+        void setMotorSpeed(uint8_t id, int16_t speed);
         void stop(uint8_t id);
         void unload(uint8_t id);
         void load(uint8_t id);
         int  readPosition(uint8_t id);
+        int  readVin(uint8_t id);
         void setID(uint8_t oldID, uint8_t newID);
     private:
         Stream& serial_;

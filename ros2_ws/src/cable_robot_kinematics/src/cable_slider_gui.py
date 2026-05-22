@@ -28,7 +28,7 @@ class CableSliderGui(Node):
         self._estimated_xyz = [0.0, 0.0, 0.0]
         self._scales = {}
         self._slider_min = 0.0
-        self._slider_max = 0.25
+        self._slider_max = 0.15
 
         slider_min = float(self.get_parameter("slider_min").value)
         slider_max = float(self.get_parameter("slider_max").value)
