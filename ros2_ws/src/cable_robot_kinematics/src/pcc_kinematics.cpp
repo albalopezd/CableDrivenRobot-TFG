@@ -52,7 +52,7 @@ namespace cable_robot_kinematics
         double L_total, double d_cable)
     {
         const double sin_comp = -c1;
-        const double cos_comp = c2;
+        const double cos_comp = (std::abs(c2) >= std::abs(c3)) ? c2 : -c3;
 
         const double theta = std::sqrt(sin_comp*sin_comp + cos_comp*cos_comp) / d_cable;
         const double phi = std::atan2(sin_comp, cos_comp);

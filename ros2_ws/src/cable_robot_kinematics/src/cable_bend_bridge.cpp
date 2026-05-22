@@ -37,13 +37,13 @@ class CableBendBridge : public rclcpp::Node
 
             // FK model: phi_cable = {pi, pi/2, -pi/2} → physical positions {-90°, 0°, 180°}
             const double sin_comp = -c1;
-            const double cos_comp = c2;
+            const double cos_comp = (std::abs(c2) >= std::abs(c3)) ? c2 : -c3;
             const double theta = std::sqrt(sin_comp * sin_comp + cos_comp * cos_comp) / d_cable_;
             const double phi   = std::atan2(sin_comp, cos_comp);
 
             // joint_bend_x+ → punta hacia -Y; joint_bend_y+ → punta hacia +X
-            const double bx_segment = -theta * std::sin(phi) / n_segment_;
-            const double by_segment =  theta * std::cos(phi) / n_segment_;
+            const double bx_segment = -theta * std::cos(phi) / n_segment_;
+            const double by_segment = -theta * std::sin(phi) / n_segment_;
 
             sensor_msgs::msg::JointState bend_msg;
             bend_msg.header.stamp = this->now();
