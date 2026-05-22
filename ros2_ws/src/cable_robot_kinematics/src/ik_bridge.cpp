@@ -14,8 +14,8 @@ using namespace std::chrono_literals;
 class IKBridge : public rclcpp::Node
 {
     public:
-        IKBridge() : Node("ik_bridge"), n_segment_(4), d_cable_(0.02), phi_cable_1_(0.0),
-        phi_cable_2_(2.09439), phi_cable_3_(4.18879)
+        IKBridge() : Node("ik_bridge"), n_segment_(4), d_cable_(0.02), phi_cable_1_(M_PI),
+        phi_cable_2_(M_PI / 2.0), phi_cable_3_(-M_PI / 2.0)
         {
             cable_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("cable_joint_commands", 10);
             bend_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(

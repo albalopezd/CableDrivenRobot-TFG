@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <tuple>
 
 namespace cable_robot_kinematics
@@ -25,7 +26,7 @@ namespace cable_robot_kinematics
 
     std::tuple<double, double, double> get_cable_pull(
         double theta_total, double phi, double d_cable,
-        double phi_cable_1 = 0.0, double phi_cable_2 = 2.0 * 3.14 / 3.0, double phi_cable_3 = 4.0 * 3.14 / 3.0
+        double phi_cable_1 = M_PI, double phi_cable_2 = M_PI / 2.0, double phi_cable_3 = -M_PI / 2.0
     );
 
     std::tuple<double, double, double, double> per_segment_bending(

@@ -96,6 +96,13 @@ class CableSliderGui(Node):
                 for widget in child.winfo_children():
                     if isinstance(widget, tk.Scale):
                         widget.set(0.0)
+        for name in self._values:
+            self._values[name] = -0.005
+        self._root.after(500, self._finish_home)
+
+    def _finish_home(self) -> None:
+        for name in self._values:
+            self._values[name] = 0.0
 
     def _send_pose(self) -> None:
         try:

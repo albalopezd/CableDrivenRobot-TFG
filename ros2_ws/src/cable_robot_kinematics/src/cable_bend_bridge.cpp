@@ -35,10 +35,9 @@ class CableBendBridge : public rclcpp::Node
 
             if (!found_c1 || !found_c2 || !found_c3) return;
 
-            // FK model: phi_cable = {0, 2pi/3, 4pi/3}
-            // sin_comp = c1, cos_comp = (c2-c3)/sqrt(3)
-            const double sin_comp = c1;
-            const double cos_comp = (c2 - c3) / std::sqrt(3.0);
+            // FK model: phi_cable = {pi, pi/2, -pi/2} → physical positions {-90°, 0°, 180°}
+            const double sin_comp = -c1;
+            const double cos_comp = c2;
             const double theta = std::sqrt(sin_comp * sin_comp + cos_comp * cos_comp) / d_cable_;
             const double phi   = std::atan2(sin_comp, cos_comp);
 

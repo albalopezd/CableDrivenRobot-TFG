@@ -29,7 +29,7 @@ class HardwareController(Node):
         for i, name in enumerate(JOINTS):
             if name in msg.name:
                 idx = msg.name.index(name)
-                self._desired[i] = max(0.0, msg.position[idx])
+                self._desired[i] = max(-0.015, msg.position[idx])
 
     def _current_cb(self, msg: JointState):
         for i, name in enumerate(JOINTS):
