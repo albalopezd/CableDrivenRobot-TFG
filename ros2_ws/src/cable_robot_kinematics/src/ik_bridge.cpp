@@ -28,7 +28,7 @@ class IKBridge : public rclcpp::Node
         void pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
         {
             double x = msg->pose.position.x;
-            double y = msg->pose.position.y;
+            double y = -msg->pose.position.y;
             double z = msg->pose.position.z;
 
             

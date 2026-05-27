@@ -10,7 +10,7 @@ class FKBridge : public rclcpp::Node
 {
 public:
     FKBridge() : Node("fk_bridge"),
-        n_segment_(4), segment_spacing_(0.053), d_cable_(0.02)
+        n_segment_(4), segment_spacing_(0.05675), d_cable_(0.11)
     {
         L_total_ = n_segment_ * segment_spacing_;
 
@@ -39,7 +39,7 @@ private:
         pose.header.stamp = this->now();
         pose.header.frame_id = "world";
         pose.pose.position.x = fk.x;
-        pose.pose.position.y = fk.y;
+        pose.pose.position.y = -fk.y;
         pose.pose.position.z = fk.z;
         pose.pose.orientation.w = 1.0;
 
