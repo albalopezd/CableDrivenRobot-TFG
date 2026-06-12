@@ -14,7 +14,7 @@ experimental sobre el robot físico.
 
 | Primera aproximación de movimiento | Demostración |
 |:---:|:---:|
-| [![Primera aproximación de movimiento](https://img.youtube.com/vi/VIDEO_ID_APROXIMACION/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID_APROXIMACION) | [![Demo](https://img.youtube.com/vi/VIDEO_ID_DEMO/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID_DEMO) |
+| [![Primera aproximación de movimiento](https://img.youtube.com/vi/9lynUKzb-aw/0.jpg)](https://www.youtube.com/shorts/9lynUKzb-aw) | [![Demo](https://img.youtube.com/vi/VIDEO_ID_DEMO/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID_DEMO) |
 | Pruebas iniciales de actuación de los cables y respuesta del robot. | Funcionamiento completo: control cinemático. |
 
 ---
