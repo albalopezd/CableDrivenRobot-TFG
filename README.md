@@ -1,7 +1,8 @@
-# Robot continuo accionado por cables (3 GDL) — TFG
+# Robot continuo accionado por cables (2 GDL) — TFG
 
 Trabajo de Fin de Grado. Diseño, construcción y control de un **robot continuo accionado por
-cables** (*cable-driven continuum robot*) de 4 segmentos y 3 grados de libertad. El robot se
+cables** (*cable-driven continuum robot*) de 4 segmentos, accionado por 3 tendones, con
+2 grados de libertad que posicionan el extremo en el plano XY. El robot se
 modela con **cinemática de curvatura constante por tramos (PCC)** y se controla en tiempo real
 con **ROS2 Jazzy + ros2_control**, un **Arduino** como intermediario y tres **servos LX-16A**.
 Incluye cinemática directa e inversa, visualización en RViz, interfaz gráfica y validación
@@ -23,7 +24,14 @@ experimental sobre el robot físico.
 Un robot continuo no tiene articulaciones rígidas: su estructura se deforma de forma continua.
 En este caso, una columna central flexible recorre **4 segmentos** separados por discos, y
 **3 cables (tendones)** distribuidos a 120° tiran de los segmentos para curvar el robot en
-cualquier dirección del plano, proporcionando **3 grados de libertad**.
+cualquier dirección del plano.
+
+Al ser una **única sección de curvatura constante**, el robot tiene **2 grados de libertad**:
+la **curvatura** (cuánto dobla) y la **orientación del plano de doblez** (hacia dónde dobla).
+Esos 2 GDL posicionan el extremo en el plano **XY**. Los 3 tendones son redundantes respecto a
+esos 2 GDL: aportan tensión y equilibrio, no una dirección de movimiento adicional. La
+coordenada **z no es un grado de libertad independiente**, sino una consecuencia geométrica del
+doblez (el extremo se acorta en vertical al curvarse).
 
 El comportamiento se describe con el modelo **PCC (Piecewise Constant Curvature)**, que asume
 curvatura constante en cada tramo y permite resolver:
@@ -37,6 +45,7 @@ curvatura constante en cada tramo y permite resolver:
 | Parámetro | Valor |
 |---|---|
 | Número de segmentos | 4 |
+| Grados de libertad | 2 (curvatura + orientación del plano de doblez) |
 | Separación entre discos | 0,053 m |
 | Número de cables (tendones) | 3, a 120° |
 | Servos | LX-16A — IDs 7, 10 y 4 |
