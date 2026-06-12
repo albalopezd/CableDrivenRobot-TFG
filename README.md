@@ -125,7 +125,6 @@ autónomo sin ROS).
 - **Ubuntu** con **ROS2 Jazzy**.
 - `ros2_control` y `ros2_controllers` (`sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers`).
 - `xacro` y `colcon`.
-- **Python**: `pandas`, `matplotlib`, `plotly` para los scripts de análisis.
 - **Arduino IDE** para cargar el firmware.
 - *Opcional:* PlotJuggler (`sudo apt install ros-jazzy-plotjuggler-ros`) para visualizar
   señales en tiempo real.
@@ -183,8 +182,8 @@ Se grabaron tres pruebas experimentales sobre el robot físico (rosbags en
 | Ejes simples (X o Y) | ≈ 0,8 – 1,2 mm |
 | Diagonales | ≈ 7 mm |
 
-Los scripts de análisis (`plot_test1.py`, `plot_test2.py`, `plot_test3.py`, en `ros2_ws/`)
-regeneran todas las figuras a partir de los CSV exportados de los rosbags.
+Los rosbags de las tres pruebas están disponibles en [`ros2_ws/bags/`](ros2_ws/bags/) para
+su reproducción y análisis.
 
 ---
 
@@ -193,12 +192,11 @@ regeneran todas las figuras a partir de los CSV exportados de los rosbags.
 ```
 CableDrivenRobot-TFG/
 ├── Arduino/      Firmware del Arduino (sketch + librerías LX16A, TendonRobot, PCCkinematics)
-├── ros2_ws/      Workspace ROS2 (4 paquetes) + rosbags y scripts de análisis
+├── ros2_ws/      Workspace ROS2 (4 paquetes) + rosbags
 ├── parts/        Piezas mecánicas en FreeCAD (.FCStd)
 ├── meshes/       Mallas .STL para impresión 3D y RViz
 ├── schematics/   Esquema eléctrico (KiCad)
 ├── scenes/       Escenas de CoppeliaSim (validación cinemática previa)
-├── scripts/      Scripts de gráficas para la validación en simulación
 └── csv/          Datos de validación cinemática (simulación)
 ```
 
@@ -210,21 +208,6 @@ Antes de la implementación física, la cinemática se validó en simulación co
 Las escenas están en [`scenes/`](scenes/) (`kinematic_3d_validation.ttt`,
 `kinematic_3d_validation_complete_arm.ttt`) y los datos generados en [`csv/`](csv/), comparando
 posición real (simulada) frente a la teórica para cinemática directa e inversa.
-
-Scripts de representación en [`scripts/`](scripts/):
-
-```bash
-# Gráfica genérica de cualquier columna
-python plot_generic.py ../csv/direct_kinematic_validation_4seg.csv time d_real
-
-# Listar columnas disponibles de un CSV
-python plot_generic.py ../csv/inverse_kinematic_validation_4seg.csv --list
-```
-
-- `plot_direct_kinematics.py` — posición real vs teórica, error, rotación total y flexión por segmento.
-- `plot_inverse_kinematics.py` — seguimiento de la IK, convergencia del error, ángulos articulares y longitudes de cable.
-
-Dependencias: `pandas` y `matplotlib` (`pip install pandas matplotlib`).
 
 ---
 
