@@ -23,8 +23,8 @@ experimental sobre el robot físico.
 
 Un robot continuo no tiene articulaciones rígidas: su estructura se deforma de forma continua.
 En este caso, una columna central flexible recorre **4 segmentos** separados por discos, y
-**3 cables (tendones)** distribuidos a 120° tiran de los segmentos para curvar el robot en
-cualquier dirección del plano.
+**3 cables (tendones)** dispuestos a **0°, +90° y −90°** (triángulo isósceles rectángulo) tiran
+de los segmentos para curvar el robot en cualquier dirección del plano.
 
 Al ser una **única sección de curvatura constante**, el robot tiene **2 grados de libertad**:
 la **curvatura** (cuánto dobla) y la **orientación del plano de doblez** (hacia dónde dobla).
@@ -47,7 +47,7 @@ curvatura constante en cada tramo y permite resolver:
 | Número de segmentos | 4 |
 | Grados de libertad | 2 (curvatura + orientación del plano de doblez) |
 | Separación entre discos | 0,053 m |
-| Número de cables (tendones) | 3, a 120° |
+| Número de cables (tendones) | 3, a 0°, +90° y −90° (triángulo isósceles rectángulo) |
 | Servos | LX-16A — IDs 7, 10 y 4 |
 
 ---
