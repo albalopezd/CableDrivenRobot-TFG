@@ -20,8 +20,8 @@ setup(
     ],
     install_requires=["setuptools"],
     zip_safe=True,
-    maintainer="Workspace User",
-    maintainer_email="user@example.com",
+    maintainer="Alba López del Águila",
+    maintainer_email="albalopez5110@gmail.com",
     description="Robot description package for the cable-driven robot.",
-    license="MIT",
+    license="Apache-2.0",
 )

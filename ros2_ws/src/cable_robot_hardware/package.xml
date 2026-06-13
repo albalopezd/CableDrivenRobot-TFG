@@ -3,9 +3,9 @@
 <package format="3">
   <name>cable_robot_hardware</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="albalopez5110@gmail.com">alba</maintainer>
-  <license>TODO: License declaration</license>
+  <description>ros2_control hardware interface for the cable-driven robot (serial bridge to the Arduino).</description>
+  <maintainer email="albalopez5110@gmail.com">Alba López del Águila</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   

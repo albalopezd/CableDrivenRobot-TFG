@@ -4,8 +4,8 @@
   <version>0.0.0</version>
   <description>Bringup package for the cable-driven robot.</description>
 
-  <maintainer email="your_email@example.com">Your Name</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="albalopez5110@gmail.com">Alba López del Águila</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

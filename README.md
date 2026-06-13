@@ -8,14 +8,20 @@ con **ROS2 Jazzy + ros2_control**, un **Arduino** como intermediario y tres **se
 Incluye cinemática directa e inversa, visualización en RViz, interfaz gráfica y validación
 experimental sobre el robot físico.
 
+<p align="center">
+  <img width="32%" alt="IMG_2349" src="https://github.com/user-attachments/assets/8f0c098e-944a-4fb8-b166-56abb914526a" />
+  <img width="32%" alt="IMG_2348" src="https://github.com/user-attachments/assets/4a34c468-30c1-42ad-9555-381706a02606" />
+  <img width="22%" alt="WhatsApp Image" src="https://github.com/user-attachments/assets/88c259c2-adb1-46a8-80d0-2957801dee6f" />
+</p>
+
 ---
 
 ## 🎬 Vídeos
 
-| Primera aproximación de movimiento | Demostración |
-|:---:|:---:|
-| [![Primera aproximación de movimiento](https://img.youtube.com/vi/9lynUKzb-aw/0.jpg)](https://www.youtube.com/shorts/9lynUKzb-aw) | [![Demo](https://img.youtube.com/vi/VIDEO_ID_DEMO/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID_DEMO) |
-| Pruebas iniciales de actuación de los cables y respuesta del robot. | Funcionamiento completo: control cinemático. |
+| Primera aproximación de movimiento | Demostración IK | Demostración sliders
+|:---:|:---:|:---:|
+| [![Primera aproximación de movimiento](https://img.youtube.com/vi/9lynUKzb-aw/0.jpg)](https://www.youtube.com/shorts/9lynUKzb-aw) | [![Demo IK](https://img.youtube.com/vi/HkvytLLgjOQ/0.jpg)](https://youtu.be/HkvytLLgjOQ) | [![Demo sliders](https://img.youtube.com/vi/xODviwTWwIY/0.jpg)](https://youtu.be/xODviwTWwIY) |
+| Pruebas iniciales de actuación de los cables y respuesta del robot. | Funcionamiento completo: control cinemático. | Funcionamiento por variación longitud de cables manual |
 
 ---
 

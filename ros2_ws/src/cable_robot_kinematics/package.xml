@@ -4,8 +4,8 @@
   <name>cable_robot_kinematics</name>
   <version>0.0.0</version>
   <description>Kinematics nodes for the cable-driven continuum robot.</description>
-  <maintainer email="albalopez5110@gmail.com">alba</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="albalopez5110@gmail.com">Alba López del Águila</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
