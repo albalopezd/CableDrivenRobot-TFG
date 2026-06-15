@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_library(pcc_kinematics src/pcc_kinematics.cpp)
 target_include_directories(pcc_kinematics PUBLIC include)
@@ -20,10 +21,16 @@ add_executable(joint_state_combiner_cpp src/joint_state_combiner.cpp)
 add_executable(cable_bend_bridge_cpp src/cable_bend_bridge.cpp)
 add_executable(ik_bridge_cpp src/ik_bridge.cpp)
 add_executable(fk_bridge_cpp src/fk_bridge.cpp)
+add_executable(hardware_controller_cpp src/hardware_controller.cpp)
 
 ament_target_dependencies(joint_state_combiner_cpp
   rclcpp
   sensor_msgs
+)
+ament_target_dependencies(hardware_controller_cpp
+  rclcpp
+  sensor_msgs
+  std_msgs
 )
 ament_target_dependencies(cable_bend_bridge_cpp
   rclcpp
@@ -49,12 +56,12 @@ install(TARGETS
   cable_bend_bridge_cpp
   fk_bridge_cpp
   ik_bridge_cpp
+  hardware_controller_cpp
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(PROGRAMS
   src/cable_slider_gui.py
-  src/hardware_controller.py
   src/data_logger.py
   DESTINATION lib/${PROJECT_NAME}
 )

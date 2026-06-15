@@ -114,7 +114,7 @@ def generate_launch_description():
         ),
         Node(
             package="cable_robot_kinematics",
-            executable="hardware_controller.py",
+            executable="hardware_controller_cpp",
             name="hardware_controller",
             output="screen",
         ),

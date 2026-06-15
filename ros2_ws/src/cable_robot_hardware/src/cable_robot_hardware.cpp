@@ -148,7 +148,6 @@ void CableRobotHardware::serial_read_voltages()
         std_msgs::msg::Float32MultiArray msg;
         while (std::getline(ss, tok, ',')) {
             int v = std::stoi(tok);
-            // -1 = timeout; publicar 0 para indicar no disponible
             msg.data.push_back(v > 0 ? static_cast<float>(v) / 1000.0f : 0.0f);
         }
         if (msg.data.size() == 3) {
@@ -160,9 +159,9 @@ void CableRobotHardware::serial_read_voltages()
 hardware_interface::return_type CableRobotHardware::write(
     const rclcpp::Time &, const rclcpp::Duration &)
 {
-    int spd0 = static_cast<int>(hw_velocities_[1] * 1000.0);   // cable_2_joint → servo 10 (X+)
-    int spd1 = static_cast<int>(hw_velocities_[2] * 1000.0);   // cable_3_joint → servo 4 (X-)
-    int spd2 = static_cast<int>(-hw_velocities_[0] * 1000.0);  // cable_1_joint → servo 7 (Y+), montado invertido
+    int spd0 = static_cast<int>(hw_velocities_[1] * 1000.0);
+    int spd1 = static_cast<int>(hw_velocities_[2] * 1000.0);
+    int spd2 = static_cast<int>(-hw_velocities_[0] * 1000.0);
 
     std::string msg = "v:" + std::to_string(spd0) + "," +
                                 std::to_string(spd1) + "," +
